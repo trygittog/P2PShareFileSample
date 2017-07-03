@@ -35,8 +35,7 @@ namespace FileTransmitter
         }
         public void Connect(string destIP, int destport)
         {
-            byte[] b = new byte[8];
-            long l = Convert.ToInt64;
+           
             IPEndPoint destIPEP = new IPEndPoint(IPAddress.Parse(destIP), destport);
             try { p2pclient.Connect(destIPEP); }
             catch(Exception e)
