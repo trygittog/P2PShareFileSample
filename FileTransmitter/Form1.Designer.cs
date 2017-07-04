@@ -33,20 +33,21 @@
             this.buttonFileBrowse = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.textBoxUploadFilename = new System.Windows.Forms.TextBox();
-            this.bottonUpload = new System.Windows.Forms.Button();
+            this.bottonSharer = new System.Windows.Forms.Button();
             this.laServerInfo = new System.Windows.Forms.Label();
-            this.lableUploadtState = new System.Windows.Forms.Label();
+            this.lableSharerState = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.tBRemoteServerIP = new System.Windows.Forms.TextBox();
-            this.tBRemoteServerPort = new System.Windows.Forms.TextBox();
-            this.tBLocalServerPort = new System.Windows.Forms.TextBox();
-            this.tBLocalServerIP = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.labelDownloadState = new System.Windows.Forms.Label();
+            this.tBServerIP = new System.Windows.Forms.TextBox();
+            this.tBServerPort = new System.Windows.Forms.TextBox();
+            this.labelDownloaderState = new System.Windows.Forms.Label();
             this.laDirname = new System.Windows.Forms.Label();
-            this.buttonLaunchServer = new System.Windows.Forms.Button();
+            this.buttonDownloader = new System.Windows.Forms.Button();
             this.buttonFolderBrowse = new System.Windows.Forms.Button();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.buttonLaunchP2PServer = new System.Windows.Forms.Button();
+            this.bgThread = new System.ComponentModel.BackgroundWorker();
+            this.label2 = new System.Windows.Forms.Label();
+            this.laServerState = new System.Windows.Forms.Label();
             lable2 = new System.Windows.Forms.Label();
             label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
@@ -94,16 +95,16 @@
             this.textBoxUploadFilename.Size = new System.Drawing.Size(1000, 42);
             this.textBoxUploadFilename.TabIndex = 1;
             // 
-            // bottonUpload
+            // bottonSharer
             // 
-            this.bottonUpload.Font = new System.Drawing.Font("宋体", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.bottonUpload.Location = new System.Drawing.Point(790, 370);
-            this.bottonUpload.Name = "bottonUpload";
-            this.bottonUpload.Size = new System.Drawing.Size(227, 58);
-            this.bottonUpload.TabIndex = 4;
-            this.bottonUpload.Text = "上传";
-            this.bottonUpload.UseVisualStyleBackColor = true;
-            this.bottonUpload.Click += new System.EventHandler(this.upload_Click);
+            this.bottonSharer.Font = new System.Drawing.Font("宋体", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.bottonSharer.Location = new System.Drawing.Point(978, 367);
+            this.bottonSharer.Name = "bottonSharer";
+            this.bottonSharer.Size = new System.Drawing.Size(227, 58);
+            this.bottonSharer.TabIndex = 4;
+            this.bottonSharer.Text = "发布资源";
+            this.bottonSharer.UseVisualStyleBackColor = true;
+            this.bottonSharer.Click += new System.EventHandler(this.sharer_Click);
             // 
             // laServerInfo
             // 
@@ -111,18 +112,19 @@
             this.laServerInfo.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.laServerInfo.Location = new System.Drawing.Point(12, 16);
             this.laServerInfo.Name = "laServerInfo";
-            this.laServerInfo.Size = new System.Drawing.Size(490, 24);
+            this.laServerInfo.Size = new System.Drawing.Size(526, 24);
             this.laServerInfo.TabIndex = 6;
-            this.laServerInfo.Text = "远程服务器：            端口          ，";
+            this.laServerInfo.Text = "P2P公共服务器：            端口          。";
             // 
-            // lableUploadtState
+            // lableSharerState
             // 
-            this.lableUploadtState.Font = new System.Drawing.Font("宋体", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lableUploadtState.Location = new System.Drawing.Point(786, 442);
-            this.lableUploadtState.Name = "lableUploadtState";
-            this.lableUploadtState.Size = new System.Drawing.Size(485, 150);
-            this.lableUploadtState.TabIndex = 7;
-            this.lableUploadtState.Text = "准备就绪";
+            this.lableSharerState.Font = new System.Drawing.Font("宋体", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lableSharerState.Location = new System.Drawing.Point(936, 441);
+            this.lableSharerState.Name = "lableSharerState";
+            this.lableSharerState.Size = new System.Drawing.Size(323, 150);
+            this.lableSharerState.TabIndex = 7;
+            this.lableSharerState.Text = "准备就绪";
+            this.lableSharerState.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label1
             // 
@@ -134,75 +136,41 @@
             this.label1.TabIndex = 9;
             this.label1.Text = "允许的文件类型.txt|.rar|.pdf|.ppt|.doc";
             // 
-            // tBRemoteServerIP
+            // tBServerIP
             // 
-            this.tBRemoteServerIP.Font = new System.Drawing.Font("宋体", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.tBRemoteServerIP.ImeMode = System.Windows.Forms.ImeMode.Disable;
-            this.tBRemoteServerIP.Location = new System.Drawing.Point(152, 12);
-            this.tBRemoteServerIP.MaxLength = 15;
-            this.tBRemoteServerIP.Name = "tBRemoteServerIP";
-            this.tBRemoteServerIP.Size = new System.Drawing.Size(136, 33);
-            this.tBRemoteServerIP.TabIndex = 10;
-            this.tBRemoteServerIP.Text = "127.0.0.1";
-            this.tBRemoteServerIP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tBRemoteServerIP.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxConnectIP_KeyPress);
+            this.tBServerIP.Font = new System.Drawing.Font("宋体", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.tBServerIP.ImeMode = System.Windows.Forms.ImeMode.Disable;
+            this.tBServerIP.Location = new System.Drawing.Point(192, 12);
+            this.tBServerIP.MaxLength = 15;
+            this.tBServerIP.Name = "tBServerIP";
+            this.tBServerIP.Size = new System.Drawing.Size(136, 33);
+            this.tBServerIP.TabIndex = 10;
+            this.tBServerIP.Text = "127.0.0.1";
+            this.tBServerIP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tBServerIP.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxConnectIP_KeyPress);
             // 
-            // tBRemoteServerPort
+            // tBServerPort
             // 
-            this.tBRemoteServerPort.Font = new System.Drawing.Font("宋体", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.tBRemoteServerPort.ImeMode = System.Windows.Forms.ImeMode.Disable;
-            this.tBRemoteServerPort.Location = new System.Drawing.Point(362, 12);
-            this.tBRemoteServerPort.MaxLength = 5;
-            this.tBRemoteServerPort.Name = "tBRemoteServerPort";
-            this.tBRemoteServerPort.Size = new System.Drawing.Size(100, 33);
-            this.tBRemoteServerPort.TabIndex = 11;
-            this.tBRemoteServerPort.Text = "13000";
-            this.tBRemoteServerPort.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tBRemoteServerPort.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxPort_KeyPress);
+            this.tBServerPort.Font = new System.Drawing.Font("宋体", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.tBServerPort.ImeMode = System.Windows.Forms.ImeMode.Disable;
+            this.tBServerPort.Location = new System.Drawing.Point(402, 12);
+            this.tBServerPort.MaxLength = 5;
+            this.tBServerPort.Name = "tBServerPort";
+            this.tBServerPort.Size = new System.Drawing.Size(100, 33);
+            this.tBServerPort.TabIndex = 11;
+            this.tBServerPort.Text = "13000";
+            this.tBServerPort.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.tBServerPort.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxPort_KeyPress);
             // 
-            // tBLocalServerPort
+            // labelDownloaderState
             // 
-            this.tBLocalServerPort.Font = new System.Drawing.Font("宋体", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.tBLocalServerPort.ImeMode = System.Windows.Forms.ImeMode.Disable;
-            this.tBLocalServerPort.Location = new System.Drawing.Point(856, 12);
-            this.tBLocalServerPort.MaxLength = 5;
-            this.tBLocalServerPort.Name = "tBLocalServerPort";
-            this.tBLocalServerPort.Size = new System.Drawing.Size(100, 33);
-            this.tBLocalServerPort.TabIndex = 14;
-            this.tBLocalServerPort.Text = "13000";
-            this.tBLocalServerPort.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.tBLocalServerPort.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxServerPort_KeyPress);
-            // 
-            // tBLocalServerIP
-            // 
-            this.tBLocalServerIP.Font = new System.Drawing.Font("宋体", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.tBLocalServerIP.ImeMode = System.Windows.Forms.ImeMode.Disable;
-            this.tBLocalServerIP.Location = new System.Drawing.Point(646, 12);
-            this.tBLocalServerIP.MaxLength = 15;
-            this.tBLocalServerIP.Name = "tBLocalServerIP";
-            this.tBLocalServerIP.Size = new System.Drawing.Size(136, 33);
-            this.tBLocalServerIP.TabIndex = 13;
-            this.tBLocalServerIP.Text = "127.0.0.1";
-            this.tBLocalServerIP.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.Location = new System.Drawing.Point(504, 16);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(754, 24);
-            this.label2.TabIndex = 12;
-            this.label2.Text = "本地服务器：            端口          。端口请设在1024-49151。";
-            // 
-            // labelDownloadState
-            // 
-            this.labelDownloadState.Font = new System.Drawing.Font("宋体", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.labelDownloadState.Location = new System.Drawing.Point(214, 442);
-            this.labelDownloadState.Name = "labelDownloadState";
-            this.labelDownloadState.Size = new System.Drawing.Size(500, 138);
-            this.labelDownloadState.TabIndex = 19;
-            this.labelDownloadState.Text = "准备就绪";
+            this.labelDownloaderState.Font = new System.Drawing.Font("宋体", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.labelDownloaderState.Location = new System.Drawing.Point(13, 430);
+            this.labelDownloaderState.Name = "labelDownloaderState";
+            this.labelDownloaderState.Size = new System.Drawing.Size(286, 161);
+            this.labelDownloaderState.TabIndex = 19;
+            this.labelDownloaderState.Text = "准备就绪";
+            this.labelDownloaderState.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // laDirname
             // 
@@ -213,16 +181,16 @@
             this.laDirname.Size = new System.Drawing.Size(995, 126);
             this.laDirname.TabIndex = 18;
             // 
-            // buttonLaunchServer
+            // buttonDownloader
             // 
-            this.buttonLaunchServer.Font = new System.Drawing.Font("宋体", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.buttonLaunchServer.Location = new System.Drawing.Point(218, 362);
-            this.buttonLaunchServer.Name = "buttonLaunchServer";
-            this.buttonLaunchServer.Size = new System.Drawing.Size(185, 66);
-            this.buttonLaunchServer.TabIndex = 17;
-            this.buttonLaunchServer.Text = "开启服务器";
-            this.buttonLaunchServer.UseVisualStyleBackColor = true;
-            this.buttonLaunchServer.Click += new System.EventHandler(this.buttonLaunchServer_Click);
+            this.buttonDownloader.Font = new System.Drawing.Font("宋体", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.buttonDownloader.Location = new System.Drawing.Point(65, 359);
+            this.buttonDownloader.Name = "buttonDownloader";
+            this.buttonDownloader.Size = new System.Drawing.Size(185, 66);
+            this.buttonDownloader.TabIndex = 17;
+            this.buttonDownloader.Text = "获取资源";
+            this.buttonDownloader.UseVisualStyleBackColor = true;
+            this.buttonDownloader.Click += new System.EventHandler(this.buttonDownloader_Click);
             // 
             // buttonFolderBrowse
             // 
@@ -239,26 +207,60 @@
             // 
             this.folderBrowserDialog1.HelpRequest += new System.EventHandler(this.folderBrowserDialog1_HelpRequest);
             // 
+            // buttonLaunchP2PServer
+            // 
+            this.buttonLaunchP2PServer.Font = new System.Drawing.Font("宋体", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.buttonLaunchP2PServer.Location = new System.Drawing.Point(497, 365);
+            this.buttonLaunchP2PServer.Name = "buttonLaunchP2PServer";
+            this.buttonLaunchP2PServer.Size = new System.Drawing.Size(217, 63);
+            this.buttonLaunchP2PServer.TabIndex = 20;
+            this.buttonLaunchP2PServer.Text = "开启P2P服务器";
+            this.buttonLaunchP2PServer.UseVisualStyleBackColor = true;
+            this.buttonLaunchP2PServer.Click += new System.EventHandler(this.buttonLaunchP2PServer_Click);
+            // 
+            // bgThread
+            // 
+            this.bgThread.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgThread_DoWork);
+            // 
+            // label2
+            // 
+            this.label2.Font = new System.Drawing.Font("宋体", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label2.Location = new System.Drawing.Point(532, 18);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(358, 29);
+            this.label2.TabIndex = 21;
+            this.label2.Text = "端口请设置在1024-49151。";
+            // 
+            // laServerState
+            // 
+            this.laServerState.Font = new System.Drawing.Font("宋体", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.laServerState.Location = new System.Drawing.Point(444, 441);
+            this.laServerState.Name = "laServerState";
+            this.laServerState.Size = new System.Drawing.Size(323, 150);
+            this.laServerState.TabIndex = 22;
+            this.laServerState.Text = "准备就绪";
+            this.laServerState.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // MainFrom
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1304, 601);
-            this.Controls.Add(this.labelDownloadState);
+            this.ClientSize = new System.Drawing.Size(1305, 619);
+            this.Controls.Add(this.laServerState);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.buttonLaunchP2PServer);
+            this.Controls.Add(this.labelDownloaderState);
             this.Controls.Add(this.laDirname);
-            this.Controls.Add(this.buttonLaunchServer);
+            this.Controls.Add(this.buttonDownloader);
             this.Controls.Add(label4);
             this.Controls.Add(this.buttonFolderBrowse);
-            this.Controls.Add(this.tBLocalServerPort);
-            this.Controls.Add(this.tBLocalServerIP);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.tBRemoteServerPort);
-            this.Controls.Add(this.tBRemoteServerIP);
+            this.Controls.Add(this.tBServerPort);
+            this.Controls.Add(this.tBServerIP);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.lableUploadtState);
+            this.Controls.Add(this.lableSharerState);
             this.Controls.Add(this.laServerInfo);
-            this.Controls.Add(this.bottonUpload);
+            this.Controls.Add(this.bottonSharer);
             this.Controls.Add(this.textBoxUploadFilename);
             this.Controls.Add(this.buttonFileBrowse);
             this.Controls.Add(lable2);
@@ -275,20 +277,21 @@
         private System.Windows.Forms.Button buttonFileBrowse;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.TextBox textBoxUploadFilename;
-        private System.Windows.Forms.Button bottonUpload;
+        private System.Windows.Forms.Button bottonSharer;
         private System.Windows.Forms.Label laServerInfo;
-        private System.Windows.Forms.Label lableUploadtState;
+        private System.Windows.Forms.Label lableSharerState;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox tBRemoteServerIP;
-        private System.Windows.Forms.TextBox tBRemoteServerPort;
-        private System.Windows.Forms.TextBox tBLocalServerPort;
-        private System.Windows.Forms.TextBox tBLocalServerIP;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label labelDownloadState;
+        private System.Windows.Forms.TextBox tBServerIP;
+        private System.Windows.Forms.TextBox tBServerPort;
+        private System.Windows.Forms.Label labelDownloaderState;
         private System.Windows.Forms.Label laDirname;
-        private System.Windows.Forms.Button buttonLaunchServer;
+        private System.Windows.Forms.Button buttonDownloader;
         private System.Windows.Forms.Button buttonFolderBrowse;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private System.Windows.Forms.Button buttonLaunchP2PServer;
+        private System.ComponentModel.BackgroundWorker bgThread;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label laServerState;
     }
 }
 
